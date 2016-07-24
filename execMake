@@ -1,0 +1,2 @@
+all:
+	gcc main.c multithreaded_multiply.c loop_unrolling_multiply.c multithreaded_loopunrolling_multiply.c strassen_matrix_multiply.c -o sampleTest -lpthread
