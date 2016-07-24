@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
-*/
+ * Contains method to implement 
+ * pthreads and implicit parallelism techniques called loop unrolling 
+ * alongwith openMP.
+ */
 #define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,21 +12,21 @@
 #include <omp.h>
 #include <sched.h>
 #include "hdr_const.h"
+
 struct arg_struct {
     int row_num;
 };
 
 int MULTIPLICANT;
 void threaded_loop_unrolling(void *params);
-//void setAffinity(int core_id);
-/*Method to create given number of POSIX threads to perform multi-threaded matrix multiplication using loop unrolling*/
+
+/*Method to create and join given number of POSIX threads*/
 void threadedLoopInvoker(int TC) {
-     MULTIPLICANT=MATRIX_SIZE/TC;
+    MULTIPLICANT = MATRIX_SIZE / TC;
     pthread_t thread[TC];
     pthread_attr_t attr;
     int rc, joiner;
     long t;
-    void *status;
     struct arg_struct args[TC];
     clock_t start_time, end_time;
 

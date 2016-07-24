@@ -1,12 +1,13 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *Implementation of Strassen's algorithm for matrix multiplication
  */
 
 #include <stdio.h>
 #include "hdr_const.h"
 
+void subtract(int size, double (*a)[size], double (*b)[size], double (*ANS)[size]);
+void add(int size, double (*a)[size], double (*b)[size], double (*ANS)[size]);
+void basic_matrix_multiplication(int size, double (*a)[size], double (*b)[size], double (*ANS)[size]);
 
 /* Method to perform matrix multiplication using Strassen's algorithm*/
 
@@ -64,16 +65,16 @@ void strassens_multiplication(int size, double (*a)[size], double (*b)[size], do
         //m1=(a11+a22)(b11+b22)
         add(split_size, a11, a22, result1);
         add(split_size, b11, b22, result2);
-        strassens_multiplication(split_size, result1, result2,m1);
-        
+        strassens_multiplication(split_size, result1, result2, m1);
+
         //m2=(a21+a22)b11
         add(split_size, a21, a22, result1);
         strassens_multiplication(split_size, result1, b11, m2);
-        
+
         //m3=a11(b12-b22)
         subtract(split_size, b12, b22, result3);
         strassens_multiplication(split_size, a11, result3, m3);
-       
+
         //m4=a22(b21-b11)
         subtract(split_size, b21, b11, result3);
         strassens_multiplication(split_size, a22, result3, m4);
@@ -81,19 +82,19 @@ void strassens_multiplication(int size, double (*a)[size], double (*b)[size], do
         //m5=(a11+a12)b22
         add(split_size, a11, a12, result1);
         strassens_multiplication(split_size, result1, b22, m5);
-        
+
         //m6=(a21-a11)(b11+b12)
         subtract(split_size, a21, a11, result3);
         add(split_size, b11, b12, result1);
-        strassens_multiplication(split_size, result3,result1, m6);
-        
+        strassens_multiplication(split_size, result3, result1, m6);
+
         //m7=(a12-a22)(b12+b22)
         subtract(split_size, a12, a22, result3);
         add(split_size, b21, b22, result1);
-        strassens_multiplication(split_size, result3,result1, m7);
+        strassens_multiplication(split_size, result3, result1, m7);
 
         // c11=m1+m4+m7-m5
-        add(split_size, m1, m4, result1);        
+        add(split_size, m1, m4, result1);
         add(split_size, result1, m7, result2);
         subtract(split_size, result2, m5, c11);
 
@@ -108,7 +109,7 @@ void strassens_multiplication(int size, double (*a)[size], double (*b)[size], do
         add(split_size, result1, m6, result2);
         subtract(split_size, result2, m2, c22);
 
-
+        //Combine result to ANS matrix
         int k = 0;
 
         for (k = 0; k < split_size; k++) {

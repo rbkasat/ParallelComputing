@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Contains method to implement matrix multiplication using posix threads 
+ * and then assigns each thread to CPU cores dynamically 
  */
 
 #define _GNU_SOURCE
@@ -9,7 +8,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include <pthread.h>
-#include <errno.h>
 #include <omp.h>
 #include <sched.h>
 #include "hdr_const.h"
@@ -20,17 +18,17 @@ struct arg_struct {
 
 int MULTIPLICANT;
 void threaded_basic(void *params);
-//void setAffinity(int core_id);
+
+//Method to create and join pthreads
 
 void threadedBasicInvoker(int TC) {
-    MULTIPLICANT=MATRIX_SIZE/TC;
+    MULTIPLICANT = MATRIX_SIZE / TC;
     pthread_t thread[TC];
     pthread_attr_t attr;
     int rc, joiner;
     long t;
     void *status;
     struct arg_struct args[TC];
-    //clock_t start_time, end_time;
     time_t current_time, last_time;
     current_time = time(NULL);
     pthread_attr_init(&attr);
@@ -49,7 +47,7 @@ void threadedBasicInvoker(int TC) {
 
 }
 
-/*Method to multiply matrices using multi-threading using OpenMP*/
+/*Method to multiply matrices using multi-threading and OpenMP*/
 void threaded_basic(void *params) {
 
     struct arg_struct *obj = (struct arg_struct *) params;
