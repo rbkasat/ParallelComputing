@@ -1,0 +1,61 @@
+
+# PCTSpeedup
+
+A mini project that compares the performance of various parallel computing methods by performing matrix multiplication on large-size matrix by calculating the time taken by each approach. The main goal is to implement varoius techniques to speed up the tasks that require high CPU Usage.
+
+### Features
+1. Simple Matrix Multiplication
+2. Implicit Parallelism Techniques like loop unrolling
+3. Use of pthreads to achieve multithreaded multiplication
+4. OpenMP
+5. Pthreads to hyperthreads mapping 
+6. Compiler flags
+7. Strassen algorithm for matrix multiplication
+
+### How to use
+
+The code implements pthreads that are supported by Unix, thus it can be executed on Unix :
+
+* Download the project
+
+ Compile it with make file as: 
+```sh
+make -f execMake
+```
+OR
+
+Use compiler flag to get optimized code and save execution time:
+```sh
+gcc -O3 <sourcefile1> <sourcefile2> ... <sourcefileN> -o sampleTest
+```
+
+Now run the code as:
+```sh
+./sampleTest
+```
+Provide the desired number of threads to e created as a power of 2 eg: 1,2,4,8 etc.
+This is because the Strassen's algorithm requires power of 2 threads.
+
+To avoid the segmentation fault, which occurs due to high size of stack is desired, set the stack size to unlimited using following command:
+```sh
+ulimit -s unlimited
+```
+To understand the performance better, change the MATRIX_SIZE in hdr_const.h file to higher number as power of 2 eg: 8192.
+
+
+### Experimental Result
+The configuration of system on which the experiment was carried out:
+* Number of CPU cores : 4
+* Hyperthreads : Yes
+
+The experiment was carried out for different number of threads on a matrix of size 8192*8192 and it was found that the time taken by matrix multipliaction was least when,
+number of threads= number of CPU cores.
+
+Following table depicts the experimental result thus found. 
+
+Time taken by simple matrix multiplication : 12274 sec.
+
+|Number of threads|2|4|8|16|
+|------|---|---|---|---|
+|Execution time multithreading tech in sec|8270|3190|3224|10256|
+|Execution time all techniques in sec |1567|638|674|10250|
