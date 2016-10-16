@@ -53,7 +53,7 @@ number of threads= number of CPU cores.
 
 Following table depicts the experimental result thus found. 
 
-Time taken by simple matrix multiplication : 12274 sec.
+Time taken by simple matrix multiplication : 12273 sec.
 
 |Number of threads|2|4|8|16|
 |------|---|---|---|---|
